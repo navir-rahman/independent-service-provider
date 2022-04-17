@@ -1,0 +1,23 @@
+[
+    {
+        "id": "625bae714756eb2ee332f0f0",
+        "price": "$808.00",
+        "pic": "https://i.ibb.co/Gc95Stz/pexels-julia-larson-6456139.jpg",
+        "name": "Monthly",
+        "disc": "1 month gym membership. Includes, Full gym access 24hrs a day 7 days a week 24hr fob additional $35 iniatially; Access to full weights room, all cardio and all classes."
+    },
+    {
+        "id": "625bae7169e241274724e1d6",
+        "price": "$1,506.16",
+        "pic": "https://i.ibb.co/mz0050h/pexels-julia-larson-6455778.jpg",
+        "name": "3 Months Package",
+        "disc": "3 month gym membership.Includes, Full gym access 24hrs a day 7 days a week(24hr fob $35 one off cost)  Access to full weights room, all cardio and all classes."
+    },
+    {
+        "id": "625bae71d929185f6cb4a2fe",
+        "price": "$3,691.73",
+        "pic": "https://i.ibb.co/2kGqZv8/pexels-julia-larson-6456128.jpg",
+        "name": "6 Months Package",
+        "disc": "Our 6 month membership is one of our best value for money memberships! 24hr access Personalized program ClassesYoga No debit feesNo joining fee"
+    }
+]
