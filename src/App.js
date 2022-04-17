@@ -8,10 +8,11 @@ import Home from './Components/Pages/Home/Home';
 import SignUp from './Components/Pages/SignUp/SignUp';
 import SignIn from './Components/Pages/SignIn/SignIn';
 import Services from './Components/Pages/Services/Services';
+import CheckOut from './Components/Pages/CheckOut/CheckOut';
 
 function App() {
   return (
-    <div className="App">
+    <div className="">
       {/* header  */}
       <Header></Header>
       {/* routs */}
@@ -21,6 +22,7 @@ function App() {
         <Route path='/services' element={<Services></Services>}></Route>
         <Route path='/signup' element={<SignUp></SignUp>}></Route>
         <Route path='/signin' element={<SignIn></SignIn>}></Route>
+        <Route path='/checkout' element={<CheckOut></CheckOut>}></Route>
       </Routes>
       {/* footer  */}
       <Footer></Footer>
