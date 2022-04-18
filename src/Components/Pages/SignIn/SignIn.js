@@ -2,27 +2,29 @@ import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useAuthState, useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import auth from '../../../firebase.init';
 const SignIn = () => {
     let location = useLocation();
     const navigate = useNavigate();
     let from = location.state?.from?.pathname || "/";
     const [user, loading, error] = useAuthState(auth);
-const [email,setemail] = useState('')
+    const [email, setemail] = useState('')
     const passwordRef = useRef('')
     const [signInWithEmailAndPassword, euser, eloading, Eerror,] = useSignInWithEmailAndPassword(auth);
     const [signInWithGoogle, Guser, gloading, gerror] = useSignInWithGoogle(auth);
     const [signInWithGithub, gituser, gitloading, giterror] = useSignInWithGithub(auth);
     const [sendPasswordResetEmail, sending,] = useSendPasswordResetEmail(auth);
     //handle email
-    const handleemail=(e)=>{
+    const handleemail = (e) => {
         setemail(e.target.value);
     }
     // emailsignin
 
     const emailsignin = (e) => {
         e.preventDefault();
-       
+
         const password = passwordRef.current.value;
         signInWithEmailAndPassword(email, password);
     }
@@ -43,8 +45,15 @@ const [email,setemail] = useState('')
     const navigateRegister = (e) => {
         navigate2('/signup')
     }
+    //resetpass
+    const resetpass =async () => {
+        await sendPasswordResetEmail(email);
+        toast("reset email sent");
+    }
+
     return (
         <div>
+
             <div>
                 {/* SignUp with email */}
                 <div className="emailUp w-50 m-auto border mt-5">
@@ -66,13 +75,11 @@ const [email,setemail] = useState('')
                             Submit
                         </Button>
                         <Button
-                            onClick={async () => {
-                                await sendPasswordResetEmail(email);
-                                alert('Sent email');
-                            }}
+                            onClick={resetpass}
                         >
                             Reset password
                         </Button>
+                        <ToastContainer />
                     </Form>
                 </div>
                 <h5 className='text-center pb-3'>Don't have  an account? <span className='text-info' onClick={navigateRegister}>Sign up Here</span></h5>

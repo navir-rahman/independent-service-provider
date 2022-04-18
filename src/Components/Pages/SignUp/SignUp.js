@@ -15,7 +15,7 @@ const SignUp = () => {
     
     const [sendEmailVerification ] = useSendEmailVerification(auth);
     
-    const [createUserWithEmailAndPassword, user,  loading, ] = useCreateUserWithEmailAndPassword(auth);
+    const [createUserWithEmailAndPassword, user ] = useCreateUserWithEmailAndPassword(auth);
     //email sign up
     const doemailAuth = (e) => {
         e.preventDefault();
@@ -56,6 +56,9 @@ const SignUp = () => {
     // navigateRegister
     const navigate = useNavigate();
     const navigateRegister = (e) => {
+        navigate('/signin')
+    }
+    if (user) {
         navigate('/signin')
     }
     return (

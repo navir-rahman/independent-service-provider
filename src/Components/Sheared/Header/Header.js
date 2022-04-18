@@ -9,7 +9,7 @@ import { getAuth, signOut } from "firebase/auth";
 
 const Header = () => {
     const [user, loading, error] = useAuthState(auth);
-
+console.log(user);
     const handleSignOut=()=>{
 
         const auth = getAuth();
@@ -39,7 +39,7 @@ const Header = () => {
 
                         </Nav>
                     </Navbar.Collapse>
-                    <p>{user?.displayName}</p>
+                    <p>{user?.displayName || user?.email || `User name not found`}</p>
                 </Container>
             </Navbar>
         </div>
