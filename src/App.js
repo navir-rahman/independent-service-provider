@@ -9,6 +9,7 @@ import SignUp from './Components/Pages/SignUp/SignUp';
 import SignIn from './Components/Pages/SignIn/SignIn';
 import Services from './Components/Pages/Services/Services';
 import CheckOut from './Components/Pages/CheckOut/CheckOut';
+import RequireAuth from './Components/Sheared/RequireAuth/RequireAuth';
 
 function App() {
   return (
@@ -22,7 +23,13 @@ function App() {
         <Route path='/services' element={<Services></Services>}></Route>
         <Route path='/signup' element={<SignUp></SignUp>}></Route>
         <Route path='/signin' element={<SignIn></SignIn>}></Route>
-        <Route path='/checkout' element={<CheckOut></CheckOut>}></Route>
+
+        <Route path='/checkout' element={
+          <RequireAuth>
+            <CheckOut></CheckOut>
+          </RequireAuth>
+        }></Route>  
+        <Route path='*' element></Route>  
       </Routes>
       {/* footer  */}
       <Footer></Footer>

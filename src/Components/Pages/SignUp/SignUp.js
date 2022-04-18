@@ -1,28 +1,30 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import { GithubAuthProvider } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 const gitprovider = new GithubAuthProvider();
 const googleprovider = new GoogleAuthProvider();
 
 const SignUp = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
 
 
-    const [signInWithGoogle, Guser, gloading, gerror] = useSignInWithGoogle(auth);
+    const emailRef = useRef('')
+    const passwordRef = useRef('')
 
+    const [createUserWithEmailAndPassword, user] = useCreateUserWithEmailAndPassword(auth);
 
     //email sign up
     const doemailAuth = (e) => {
         e.preventDefault();
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
         createUserWithEmailAndPassword(email, password);
         if (user) {
-            console.log(user, loading);
+            // console.log(user, loading);
         }
     }
 
@@ -30,15 +32,12 @@ const SignUp = () => {
     const googlesignup = () => {
         signInWithPopup(auth, googleprovider)
             .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
-                console.log(user);
+                // console.log(user);
                 // ...
             }).catch((error) => {
-                console.log(error);
+                // console.log(error);
             });
     }
 
@@ -47,26 +46,20 @@ const SignUp = () => {
     const gitSignUp = () => {
         signInWithPopup(auth, gitprovider)
             .then((result) => {
-                // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-                const credential = GithubAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
 
                 // The signed-in user info.
                 const user = result.user;
-                console.log(user);
+                // console.log(user);
                 // ...
             }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.email;
-                // The AuthCredential type that was used.
-                const credential = GithubAuthProvider.credentialFromError(error);
-                // ...
+                console.log(error);
             });
     }
-
+    // navigateRegister
+    const navigate= useNavigate();
+    const navigateRegister=(e)=>{
+        navigate('/signin')
+    }
     return (
 
         <div>
@@ -75,7 +68,7 @@ const SignUp = () => {
                 <Form className='p-5' onSubmit={doemailAuth}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Enter email" />
+                        <Form.Control required ref={emailRef}  type="email" placeholder="Enter email" />
                         <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                         </Form.Text>
@@ -83,12 +76,13 @@ const SignUp = () => {
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
+                        <Form.Control required ref={passwordRef} type="password" placeholder="Password" />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
                 </Form>
+                <h5 className='text-center pb-3'>Already have  an account? <span className='text-info' onClick={navigateRegister}>Login Here</span></h5>
             </div>
             <div className='App mt-5'>
                 <h2 className='App'>OR Sign Up with</h2>
