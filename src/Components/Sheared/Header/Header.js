@@ -30,6 +30,7 @@ console.log(user);
                             <Nav.Link as={Link} to={"/home"}>Home</Nav.Link>
                             <Nav.Link as={Link} to={"/services"}>Our Services</Nav.Link>
                             <Nav.Link as={Link} to={"/blog"}>Blog</Nav.Link>
+                            <Nav.Link as={Link} to={"/about"}>About me</Nav.Link>
                             {
                                 user?
                                 <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>

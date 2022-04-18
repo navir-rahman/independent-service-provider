@@ -11,6 +11,7 @@ import Services from './Components/Pages/Services/Services';
 import CheckOut from './Components/Pages/CheckOut/CheckOut';
 import RequireAuth from './Components/Sheared/RequireAuth/RequireAuth';
 import Blog from './Components/Pages/Bolog/Blog';
+import About from './Components/Pages/Aboutme/About';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/signup' element={<SignUp></SignUp>}></Route>
         <Route path='/signin' element={<SignIn></SignIn>}></Route>
         <Route path='/blog' element={<Blog></Blog>}></Route>
+        <Route path='/about' element={<About></About>}></Route>
 
         <Route path='/checkout' element={
           <RequireAuth>
