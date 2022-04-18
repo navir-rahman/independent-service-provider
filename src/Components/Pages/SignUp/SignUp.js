@@ -1,7 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSendEmailVerification } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import { GithubAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -10,22 +10,20 @@ const gitprovider = new GithubAuthProvider();
 const googleprovider = new GoogleAuthProvider();
 
 const SignUp = () => {
-
-
-    const emailRef = useRef('')
-    const passwordRef = useRef('')
-
-    const [createUserWithEmailAndPassword, user] = useCreateUserWithEmailAndPassword(auth);
-
+    const emailRef = useRef('');
+    const passwordRef = useRef('');
+    
+    const [sendEmailVerification ] = useSendEmailVerification(auth);
+    
+    const [createUserWithEmailAndPassword, user,  loading, ] = useCreateUserWithEmailAndPassword(auth);
     //email sign up
     const doemailAuth = (e) => {
         e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         createUserWithEmailAndPassword(email, password);
-        if (user) {
-            // console.log(user, loading);
-        }
+        sendEmailVerification()
+
     }
 
     // google sign up
@@ -36,8 +34,8 @@ const SignUp = () => {
                 const user = result.user;
                 // console.log(user);
                 // ...
-            }).catch((error) => {
-                // console.log(error);
+            }).catch(() => {
+                //const errorMessage = error.message;
             });
     }
 
@@ -51,13 +49,13 @@ const SignUp = () => {
                 const user = result.user;
                 // console.log(user);
                 // ...
-            }).catch((error) => {
-                console.log(error);
+            }).catch(() => {
+              
             });
     }
     // navigateRegister
-    const navigate= useNavigate();
-    const navigateRegister=(e)=>{
+    const navigate = useNavigate();
+    const navigateRegister = (e) => {
         navigate('/signin')
     }
     return (
@@ -66,9 +64,10 @@ const SignUp = () => {
             {/* SignUp with email */}
             <div className="emailUp w-50 m-auto border mt-5">
                 <Form className='p-5' onSubmit={doemailAuth}>
+                    <p className=''>{}</p>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control required ref={emailRef}  type="email" placeholder="Enter email" />
+                        <Form.Control required ref={emailRef} type="email" placeholder="Enter email" />
                         <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                         </Form.Text>
@@ -81,6 +80,7 @@ const SignUp = () => {
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
+                    <p className='p-2'>After Submit Please check your email for varificaton</p>
                 </Form>
                 <h5 className='text-center pb-3'>Already have  an account? <span className='text-info' onClick={navigateRegister}>Login Here</span></h5>
             </div>

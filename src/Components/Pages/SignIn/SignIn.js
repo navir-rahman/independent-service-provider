@@ -1,24 +1,29 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useAuthState, useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 const SignIn = () => {
     let location = useLocation();
-    const navigate= useNavigate();
+    const navigate = useNavigate();
     let from = location.state?.from?.pathname || "/";
     const [user, loading, error] = useAuthState(auth);
-    const emailRef = useRef('')
+const [email,setemail] = useState('')
     const passwordRef = useRef('')
     const [signInWithEmailAndPassword, euser, eloading, Eerror,] = useSignInWithEmailAndPassword(auth);
     const [signInWithGoogle, Guser, gloading, gerror] = useSignInWithGoogle(auth);
     const [signInWithGithub, gituser, gitloading, giterror] = useSignInWithGithub(auth);
+    const [sendPasswordResetEmail, sending,] = useSendPasswordResetEmail(auth);
+    //handle email
+    const handleemail=(e)=>{
+        setemail(e.target.value);
+    }
     // emailsignin
 
     const emailsignin = (e) => {
         e.preventDefault();
-        const email=emailRef.current.value;
-        const password =passwordRef.current.value;
+       
+        const password = passwordRef.current.value;
         signInWithEmailAndPassword(email, password);
     }
     //google signin
@@ -31,7 +36,12 @@ const SignIn = () => {
         signInWithGithub();
     }
     if (user) {
-        navigate(from, { replace: true });  
+        navigate(from, { replace: true });
+    }
+    // navigateRegister
+    const navigate2 = useNavigate();
+    const navigateRegister = (e) => {
+        navigate2('/signup')
     }
     return (
         <div>
@@ -41,8 +51,7 @@ const SignIn = () => {
                     <Form className='p-5' onSubmit={emailsignin}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control ref={emailRef} type="email" placeholder="Enter email" />
-                            {/* <Form.Control onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Enter email" /> */}
+                            <Form.Control required onChange={handleemail} type="email" placeholder="Enter email" />
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
@@ -50,14 +59,23 @@ const SignIn = () => {
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control ref={passwordRef} type="password" placeholder="Password" />
+                            <Form.Control required ref={passwordRef} type="password" placeholder="Password" />
                             {/* <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" /> */}
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        <Button
+                            onClick={async () => {
+                                await sendPasswordResetEmail(email);
+                                alert('Sent email');
+                            }}
+                        >
+                            Reset password
+                        </Button>
                     </Form>
                 </div>
+                <h5 className='text-center pb-3'>Don't have  an account? <span className='text-info' onClick={navigateRegister}>Sign up Here</span></h5>
                 <div className='App mt-5'>
                     <h2 className='App'>OR Sign In with</h2>
                     {/* sign up with google */}

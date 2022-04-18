@@ -1,4 +1,5 @@
 import Services from '../../Pages/Services/Services'
+import Figure from '../Figur/Figure';
 import './Hone.css'
 const Home = () => {
 
@@ -8,7 +9,9 @@ const Home = () => {
                 <h1 className='text-white'>Live Healthy</h1>
             </div>
             <div className="container">
+                <h1 className='text-black text-center mt-5'>My Services</h1>
                 <Services></Services>
+                <Figure></Figure>
             </div>
         </div>
     );
